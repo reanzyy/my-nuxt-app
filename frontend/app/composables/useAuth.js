@@ -7,8 +7,8 @@ export default function useAuth() {
 
   async function me() {
     try {
-      const { data } = await api.get("/me")
-      user.value = data
+      const { request } = await api.get("/me")
+      user.value = request
     } catch (e) {
       user.value = null
       console.error("error", e)
@@ -19,11 +19,12 @@ export default function useAuth() {
     resetErrorBag()
     csrf().then(() => {
       api.post("/auth/login", userForm)
-        .then(({ data }) => {
-          user.value = data.user
+        .then(({ request }) => {
+          user.value = request.user
+          const token = request.data.token
           $fetch('/api/set-cookie', {
             method: "POST",
-            body: { token: data.token }
+            body: { token }
           }).then(() => {
             navigateTo("/")
           })
