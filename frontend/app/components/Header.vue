@@ -10,9 +10,10 @@
           <NuxtLink to="/todo">Todo</NuxtLink>
         </li>
         <li>
-          <NuxtLink to="/todo">Login</NuxtLink>
+          <NuxtLink to="/signin">Sign In</NuxtLink>
         </li>
       </ul>
     </Container>
   </header>
 </template>
+

@@ -5,8 +5,9 @@ export default defineNuxtConfig({
   modules: ['@nuxt/ui'],
   css: ['~/assets/css/main.css'],
   runtimeConfig: {
+    API_URL: "http://localhost:8000",
     public: {
-      apiBase: process.env.NUXT_PUBLIC_API_BASE || 'http://localhost:3000/api',
-    },
+      API_URL: "http://localhost:8000",
+    }
   },
 })

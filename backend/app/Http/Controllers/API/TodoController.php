@@ -13,34 +13,17 @@ class TodoController extends Controller
 
     public function index(Request $request)
     {
-        $query = Todo::query();
+        $query = Todo::where('user_id', Auth::id());
 
-        if ($request->has('isdone')) {
-            $query->where('is_done', '!=', false);
+        if ($request->boolean('isdone')) {
+            $query->where('is_done', true);
         }
 
         $todos = $query->get();
 
-        // $grouped = $todos->groupBy(function ($item) {
-        //     $createdDate = Carbon::parse($item->created_at);
-        //     $today = Carbon::today();
-        //     $yesterday = Carbon::yesterday();
-
-        //     if ($createdDate->isSameDay($today)) {
-        //         return 'Today';
-        //     } elseif ($createdDate->isSameDay($yesterday)) {
-        //         return 'Yesterday';
-        //     } elseif ($createdDate->weekOfYear == $today->weekOfYear) {
-        //         return $createdDate->format('l');
-        //     } else {
-        //         return $createdDate->format('d F Y');
-        //     }
-        // });
-
-        // $data = $grouped->all();
-
         return $this->sendSuccess($todos, 'successfully load data', 200);
     }
+
 
     public function store(Request $request)
     {
@@ -49,7 +32,7 @@ class TodoController extends Controller
         ]);
 
         $todo = new Todo();
-        $todo->user_id = null;
+        $todo->user_id = Auth::id();
         $todo->todo = $request->todo;
         $todo->is_done = false;
         $todo->save();

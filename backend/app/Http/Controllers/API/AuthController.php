@@ -29,7 +29,6 @@ class AuthController extends Controller
         $token = $user->createToken('app')->plainTextToken;
 
         return $this->sendSuccess([
-            'user' => $user,
             'token' => $token,
         ], 'authenticated successfully');
     }
@@ -61,12 +60,12 @@ class AuthController extends Controller
         ], 'authenticated successfully');
     }
 
-    // function logout()
-    // {
-    //     auth()->user()->currentAccessToken()->delete();
-    //     $user = auth()->user();
-    //     $user->save();
+    function logout()
+    {
+        auth()->user()->currentAccessToken()->delete();
+        $user = auth()->user();
+        $user->save();
 
-    //     return $this->sendSuccess(null, 'logout successfully');
-    // }
+        return $this->sendSuccess(null, 'logout successfully');
+    }
 }

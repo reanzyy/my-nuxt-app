@@ -5,15 +5,22 @@ export default function useAxios() {
   const config = useRuntimeConfig();
 
   let api = axios.create({
-    baseURL: config.public.apiBase,
+    baseURL: config.public.API_URL + '/api',
     headers: {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
       // 'Authorization': `Bearer ${localStorage.getItem('token')}`,
     },
     withCredentials: true,
-    withXsrfToken: true,
+    withXSRFToken: true,
   });
 
-  return api;
+  async function csrf() {
+    return await api.get(config.public.API_URL + "/sanctum/csrf-cookie");
+  }
+
+
+  return {
+    api, csrf
+  }
 }

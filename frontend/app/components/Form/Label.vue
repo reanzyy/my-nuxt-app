@@ -1,5 +1,5 @@
 <template>
-  <label :for="labelFor" v-bind="$attrs" class="block text-sm font-medium leading-6 text-gray-900" :class="class">
+  <label :for="labelFor" v-bind="$attrs" class="block text-sm font-medium leading-6 text-gray-100" :class="class">
     <slot></slot>
   </label>
 </template>

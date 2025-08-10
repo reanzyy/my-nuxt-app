@@ -22,19 +22,21 @@ use App\Http\Controllers\API\TodoController;
 Route::controller(AuthController::class)->prefix('auth')->group(function () {
     Route::post('/login', 'login');
     Route::post('/register', 'register');
+    Route::post('/logout', 'logout');
 });
 
-// Route::middleware(['auth:sanctum'])->group(function () {
-Route::controller(ProfileController::class)->prefix('profile')->group(function () {
-    Route::get('/', 'index');
-    Route::put('/', 'update');
-});
+Route::middleware(['auth:sanctum'])->group(function () {
+    Route::get("/me", fn(Request $request) => $request->user());
+    Route::controller(ProfileController::class)->prefix('profile')->group(function () {
+        Route::get('/', 'index');
+        Route::put('/', 'update');
+    });
 
-Route::controller(TodoController::class)->prefix('todos')->group(function () {
-    Route::get('/', 'index');
-    Route::post('/', 'store');
-    Route::put('/{id}', 'update');
-    Route::delete('/{id}', 'destroy');
-    Route::put('/{id}/isdone', 'isDone');
+    Route::controller(TodoController::class)->prefix('todos')->group(function () {
+        Route::get('/', 'index');
+        Route::post('/', 'store');
+        Route::put('/{id}', 'update');
+        Route::delete('/{id}', 'destroy');
+        Route::put('/{id}/isdone', 'isDone');
+    });
 });
-// });

@@ -12,7 +12,7 @@ const handleSubmit = async () => {
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ todo: todo.value })
+      // body: JSON.stringify({ todo: todo.value })
     });
     todo.value = '';
   } catch (error) {
