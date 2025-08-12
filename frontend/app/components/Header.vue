@@ -9,11 +9,21 @@
         <li>
           <NuxtLink to="/todo">Todo</NuxtLink>
         </li>
-        <li>
-          <NuxtLink to="/signin">Sign In</NuxtLink>
-        </li>
+        <ClientOnly>
+          <li v-if="!token">
+            <NuxtLink to="/signin">Sign In</NuxtLink>
+          </li>
+          <li v-else>
+            <button @click="logout" class="text-red-400 hover:text-red-300">Logout</button>
+          </li>
+        </ClientOnly>
       </ul>
     </Container>
   </header>
 </template>
+
+<script setup>
+const token = useCookie('XSRF-TOKEN')
+const { logout } = useAuth()
+</script>
 
