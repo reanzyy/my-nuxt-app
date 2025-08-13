@@ -7,11 +7,10 @@ export default function useAuth() {
 
   async function me() {
     try {
-      const { data  } = await api.get("/me")
-      user.value = data 
+      const { response } = await api.get('/me')
+      user.value = response?.data ?? data ?? null
     } catch (e) {
       user.value = null
-      console.error("error", e)
     }
   }
 
@@ -19,45 +18,46 @@ export default function useAuth() {
     resetErrorBag()
     csrf().then(() => {
       api.post("/auth/login", userForm)
-        .then(({ data }) => {
-          user.value = data.user
-          console.log(data);
-          
-          $fetch('/api/set-cookie', {
-            method: "POST",
-            body: { token: data.token }
-          }).then(() => {
-            navigateTo("/")
+        .then((res) => {
+          const token = res?.data?.token
+          return $fetch('/api/set-cookie', {
+            method: 'POST',
+            body: { token },
+            credentials: 'include'
           })
         })
+        .then(() => me())
+        .then(() => navigateTo('/'))
         .catch(err => {
-          console.log(err);
-          transformValidationErrors(err.response)
+          transformValidationErrors(err)
         })
     })
   }
 
   function logout() {
-    api.post("/auth/logout").then(() => {
-      user.value = null
-      $fetch('/api/logout', {
-        method: "POST",
-      }).then(res => {
-        navigateTo("/")
+    api.post('/auth/logout')
+      .then(() => $fetch('/api/logout', { method: 'POST' }))
+      .then(() => {
+        user.value = null
+        navigateTo('/signin')
       })
-
-    })
+      .catch(() => {
+        user.value = null
+        navigateTo('/signin')
+      })
   }
 
   function register(userForm) {
 
     resetErrorBag()
     csrf().then(() => {
-      api.post("auth/register", userForm).then(() => {
-        //   verify email screen
-      }).catch(err => {
-        transformValidationErrors(err.response)
-      })
+      api.post('auth/register', userForm)
+        .then(() => {
+          navigateTo('/signin')
+        })
+        .catch(err => {
+          transformValidationErrors(err)
+        })
     })
   }
 

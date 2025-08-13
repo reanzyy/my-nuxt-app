@@ -1,12 +1,8 @@
 export default defineNuxtRouteMiddleware((to, from) => {
+  if (process.client) return
 
-
-    const key = process.server ? 'token' : 'XSRF-TOKEN'
-
-    const token = useCookie(key)
-
-
-    if (!token.value)
-        return navigateTo('/signin')
-
+  const token = useCookie('token')
+  if (!token.value) {
+    return navigateTo('/signin')
+  }
 })

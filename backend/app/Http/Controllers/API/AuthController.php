@@ -60,11 +60,17 @@ class AuthController extends Controller
         ], 'authenticated successfully');
     }
 
-    function logout()
+    public function logout(Request $request)
     {
-        auth()->user()->currentAccessToken()->delete();
-        $user = auth()->user();
-        $user->save();
+        $user = Auth::user();
+
+        if ($user && $user->currentAccessToken()) {
+            $user->currentAccessToken()->delete();
+        } else if ($user) {
+            Auth::guard('web')->logout();
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
+        }
 
         return $this->sendSuccess(null, 'logout successfully');
     }
