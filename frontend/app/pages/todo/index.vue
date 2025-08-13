@@ -1,20 +1,10 @@
 <script setup>
+definePageMeta({ middleware: 'auth' })
 
-const {api} = useAxios();
+const { todos, loadTodos } = useTodos()
 
-const todos = ref([]);
+onMounted(() => { loadTodos() })
 
-onMounted(() => {
-  loadTodos();
-});
-
-function loadTodos(){
-  api.get('/todos').then(({data}) => {
-    todos.value = data;
-    console.log(data);
-    
-  });
-}
 </script>
 
 

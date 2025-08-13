@@ -1,17 +1,37 @@
 <script setup>
+definePageMeta({ middleware: 'auth' })
 
+const { createTodo, errorBag } = useTodos()
+
+const todo = reactive({
+  todo: ''
+})
+
+async function handleSubmit() {
+  if (!todo.todo) return
+  await createTodo(todo)
+  navigateTo('/todo')
+}
 </script>
 
 <template>
   <Container>
     <form class="mt-10" @submit.prevent="handleSubmit">
-      <input id="todo" type="text" v-model="todo" required
-        class="w-full px-4 py-2 rounded bg-gray-900 text-gray-100 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
-        placeholder="Enter your todo" />
-      <button type="submit" class="mt-4 w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition">
+      <FormGroup
+        name="todo"
+        v-model="todo.todo"
+        :errorMessage="errorBag.todo"
+        :required="false"
+        label="Todo"
+        type="text"
+        placeholder="Enter your todo"
+      />
+      <button
+        type="submit"
+        class="mt-4 w-56 bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition"
+      >
         Add Todo
       </button>
     </form>
   </Container>
-
 </template>
