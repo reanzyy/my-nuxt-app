@@ -1,9 +1,20 @@
 <script setup>
-const { data: todos } = await useAsyncData('todos', () =>
-  $fetch('http://localhost:8000/api/todos', {
-    credentials: 'include'
-  }).then(res => res.data)
-)
+
+const {api} = useAxios();
+
+const todos = ref([]);
+
+onMounted(() => {
+  loadTodos();
+});
+
+function loadTodos(){
+  api.get('/todos').then(({data}) => {
+    todos.value = data;
+    console.log(data);
+    
+  });
+}
 </script>
 
 

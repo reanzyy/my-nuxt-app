@@ -1,24 +1,5 @@
 <script setup>
 
-const todo = ref('');
-
-const handleSubmit = async () => {
-  if (!todo.value) return;
-
-  try {
-    await $fetch('http://localhost:8000/api/todos', {
-      method: 'POST',
-      credentials: 'include',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      // body: JSON.stringify({ todo: todo.value })
-    });
-    todo.value = '';
-  } catch (error) {
-    console.error('Error creating todo:', error);
-  }
-};
 </script>
 
 <template>
