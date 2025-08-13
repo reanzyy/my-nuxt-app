@@ -26,6 +26,7 @@ export default function useAuth() {
           body: { token }
         })
       })
+      .then(() => me())
       .then(() => navigateTo('/'))
       .catch(err => {
         transformValidationErrors(err)

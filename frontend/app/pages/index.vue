@@ -4,8 +4,6 @@ definePageMeta({
   middleware: 'auth',
 })
 
-const { user } = useAuth()
-
 </script>
 
 <template>
