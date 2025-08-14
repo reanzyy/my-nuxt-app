@@ -1,5 +1,6 @@
 export default function useAuth() {
   const user = useState('auth-user', () => null)
+  const isAuthenticated = computed(() => !!user.value)
 
   const { errorBag, transformValidationErrors, resetErrorBag } = useCustomError()
 
@@ -62,6 +63,6 @@ export default function useAuth() {
   }
 
 
-  return { login, logout, register, errorBag, user, me }
+  return { login, logout, register, errorBag, user, me, isAuthenticated }
 
 }

@@ -10,7 +10,7 @@
           <NuxtLink to="/todo">Todo</NuxtLink>
         </li>
         <ClientOnly>
-          <li v-if="!token">
+          <li v-if="!isAuthenticated">
             <NuxtLink to="/signin">Sign In</NuxtLink>
           </li>
           <li v-else>
@@ -23,7 +23,6 @@
 </template>
 
 <script setup>
-const token = useCookie('XSRF-TOKEN')
-const { logout } = useAuth()
+const { isAuthenticated, logout } = useAuth()
 </script>
 

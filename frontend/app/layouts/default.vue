@@ -1,3 +1,11 @@
+<script setup>
+const { me } = useAuth()
+
+onMounted(() => {
+  me()
+})
+</script>
+
 <template>
   <div class="min-h-screen bg-gray-950 text-gray-100 flex flex-col">
     <Header class="flex" />
