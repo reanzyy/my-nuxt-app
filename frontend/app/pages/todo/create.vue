@@ -1,16 +1,20 @@
 <script setup>
 definePageMeta({ middleware: 'auth' })
 
-const { createTodo, errorBag } = useTodos()
+const { createTodo, errorBag, resetErrorBag } = useTodos()
 
 const todo = reactive({
   todo: ''
 })
 
 async function handleSubmit() {
-  if (!todo.todo) return
-  await createTodo(todo)
-  navigateTo('/todo')
+  resetErrorBag()
+  try {
+    await createTodo(todo)
+    navigateTo('/todo')
+  } catch (err) {
+    throw err
+  }
 }
 </script>
 

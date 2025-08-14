@@ -23,12 +23,14 @@ export default function useTodos() {
     try {
       const { data } = await api.post('/todos', todo)
       todos.value.unshift(data)
+      return data
     } catch (err) {
       transformValidationErrors(err)
+      throw err
     }
   }
 
   return {
-    todos, loading, loadTodos, createTodo, errorBag
+    todos, loading, loadTodos, createTodo, errorBag, resetErrorBag
   }
 }
