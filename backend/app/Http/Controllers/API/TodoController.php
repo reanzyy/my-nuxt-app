@@ -19,7 +19,11 @@ class TodoController extends Controller
             $query->where('is_done', true);
         }
 
-        $todos = $query->get();
+        if ($request->has('id')) {
+            $query->where('id', $request->id);
+        }
+
+        $todos = $query->latest()->get();
 
         return $this->sendSuccess($todos, 'successfully load data', 200);
     }
@@ -79,7 +83,7 @@ class TodoController extends Controller
             return $this->sendError('data not found', 404);
         }
 
-        $todo->is_done = true;
+        $todo->is_done = !$todo->is_done;
         $todo->save();
 
         return $this->sendSuccess($todo, 'successfully checked data', 200);

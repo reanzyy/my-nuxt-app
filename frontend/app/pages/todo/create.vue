@@ -1,7 +1,7 @@
 <script setup>
 definePageMeta({ middleware: 'auth' })
 
-const { createTodo, errorBag, resetErrorBag } = useTodos()
+const { createTodo, errorBag, resetErrorBag, loading } = useTodos()
 
 const todo = reactive({
   todo: ''
@@ -30,11 +30,11 @@ async function handleSubmit() {
         type="text"
         placeholder="Enter your todo"
       />
-      <button
+      <button :disabled="loading"
         type="submit"
-        class="mt-4 w-56 bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition"
+        class="mt-4 w-56 bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition disabled:bg-blue-800"
       >
-        Add Todo
+        {{ loading ? 'Saving...' : 'Add Todo' }}
       </button>
     </form>
   </Container>
