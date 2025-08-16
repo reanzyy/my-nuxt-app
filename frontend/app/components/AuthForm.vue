@@ -30,7 +30,7 @@
           :errorMessage="errorBag.password" labelFor="password" class="my-2" />
 
         <div>
-          <UButton color="neutral" variant="outline" type="submit">
+          <UButton color="secondary" variant="outline" type="submit">
             <span v-if="props.formType == 'signin'">
               Sign in
             </span>
